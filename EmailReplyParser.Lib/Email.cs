@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using EmailReplyParser.Lib.Extensions;
+using EmailReplyParser.Lib.LineParsers;
 using EmailReplyParser.Lib.TextNormalizers;
 
 namespace EmailReplyParser.Lib
@@ -10,41 +12,52 @@ namespace EmailReplyParser.Lib
     /// </summary>
     public class Email
     {
-        private string Text { get; set; }
+        // An email is an array of fragments
+        private readonly List<Fragment> _fragments = new List<Fragment>();
+
+        private readonly IEnumerable<ILineParser> _lineParsers;
         private readonly IEnumerable<ITextNormalizer> _normalizers;
+
+        // It points to the current Fragment. If the matched line fits, it should
+        // be added to this Fragment. Otherwise, finish it and start a new
+        // Fragment.
+        private Fragment _currentFragment;
+
+        // This determines if any 'visible' Fragment has been found. Once any
+        // visible Fragment is found, stop looking for hidden ones.
+        private bool _foundVisible;
 
         /// <summary>
         /// Create an email instance from a text.
         /// </summary>
         /// <param name="text">email body</param>
         public Email(string text)
-            : this(text, new ITextNormalizer[] {new LineEndingsNormalizer(), new ReplyHeaderTextNormalizer(), new ReplyUnderscoresTextNormalizer()})
+            : this(text,
+                new ITextNormalizer[] { new LineEndingsNormalizer(), new ReplyHeaderTextNormalizer(), new ReplyUnderscoresTextNormalizer() },
+                new ILineParser[] { new DefaultLineParser() })
         {
         }
 
         /// <summary>
-        /// Create an email instance from a text.
+        /// Initializes a new instance of the <see cref="Email"/> class with the
+        /// specified text.
         /// </summary>
-        /// <param name="text">email body</param>
-        /// <param name="normalizers">a set of normalizers for tidying up the <paramref name="text">text</paramref></param>
-        public Email(string text, IEnumerable<ITextNormalizer> normalizers)
+        /// <param name="text">A string containing the email body text.</param>
+        /// <param name="normalizers">
+        /// A collection of normalizers for tidying up the <paramref
+        /// name="text">text</paramref>
+        /// </param>
+        /// <param name="lineParsers">
+        /// A collection of line parsers used to determine the type of a line of
+        /// text in an email message.
+        /// </param>
+        public Email(string text, IEnumerable<ITextNormalizer> normalizers, IEnumerable<ILineParser> lineParsers)
         {
             Text = text;
 
             _normalizers = normalizers;
+            _lineParsers = lineParsers;
         }
-
-        // An email is an array of fragments
-        private readonly List<Fragment> _fragments = new List<Fragment>();
-
-        // It points to the current Fragment.
-        // If the matched line fits, it should be added to this Fragment.
-        // Otherwise, finish it and start a new Fragment.
-        private Fragment _currentFragment;
-
-        // This determines if any 'visible' Fragment has been found.
-        // Once any visible Fragment is found, stop looking for hidden ones.
-        private bool _foundVisible;
 
         /// <summary>
         /// The reply after parsing the email.
@@ -61,14 +74,17 @@ namespace EmailReplyParser.Lib
             }
         }
 
+        private string Text { get; set; }
+
         /// <summary>
         /// Parse email.
         /// </summary>
         public void Parse()
         {
-            // Splits the given text into a list of Fragments.
-            //  This is roughly done by reversing the text and parsing from the bottom to the top.
-            //  This way we can check for 'On <date>, <author> wrote:' lines above quoted blocks.
+            // Splits the given text into a list of Fragments. This is roughly
+            // done by reversing the text and parsing from the bottom to the top.
+            // This way we can check for 'On <date>, <author> wrote:' lines above
+            // quoted blocks.
 
             foreach (var normalizer in _normalizers)
             {
@@ -78,9 +94,42 @@ namespace EmailReplyParser.Lib
             ParseEmail();
         }
 
+        /// <summary>
+        /// Mark a fragment as finished.
+        /// </summary>
+        private void FinishFragment()
+        {
+            // Finishing a fragment will detect any attributes (hidden,
+            // signature, reply), and join each line into a string.
+
+            if (_currentFragment != null)
+            {
+                _currentFragment.Finish();
+
+                if (!_foundVisible)
+                {
+                    if (_currentFragment.IsQuote
+                        || _currentFragment.IsSignature
+                        || string.IsNullOrWhiteSpace(_currentFragment.Content))
+                    {
+                        _currentFragment.IsHidden = true;
+                    }
+                    else
+                    {
+                        _foundVisible = true;
+                    }
+                }
+
+                _fragments.Add(_currentFragment);
+            }
+
+            _currentFragment = null;
+        }
+
         private void ParseEmail()
         {
-            // The content is reversed initially due to the way we check for hidden fragments.
+            // The content is reversed initially due to the way we check for
+            // hidden fragments.
             Text = Text.Reverse();
 
             _foundVisible = false;
@@ -105,37 +154,37 @@ namespace EmailReplyParser.Lib
         /// </summary>
         private void ParseEmailLine(string line)
         {
-            // Scans the given line of text and figures out which fragment it belongs to.
+            // Scans the given line of text and figures out which fragment it
+            // belongs to.
 
             line = line.TrimEnd('\n');
-            if (line.IsSignature())
+            if (line.IsSignature(_lineParsers))
             {
                 line = line.Trim();
             }
 
-            // Mark the current Fragment as a signature
-            // if the current line is empty and the Fragment starts with a common signature indicator.
+            // Mark the current Fragment as a signature if the current line is
+            // empty and the Fragment starts with a common signature indicator.
             if (_currentFragment != null
-                && string.IsNullOrWhiteSpace(line))
+                && string.IsNullOrWhiteSpace(line)
+                && _currentFragment.Lines.Last().IsSignature(_lineParsers))
             {
-                if (_currentFragment.Lines.Last().IsSignature())
-                {
-                    _currentFragment.IsSignature = true;
+                _currentFragment.IsSignature = true;
 
-                    FinishFragment();
-                }
+                FinishFragment();
             }
 
-            var isQuote = line.IsQuote();
+            var isQuote = line.IsQuote(_lineParsers);
 
-            // If the line matches the current fragment, add it.
-            // Note that a common reply header also counts as part of the quoted Fragment, even though it doesn't start with `>`.
+            // If the line matches the current fragment, add it. Note that a
+            // common reply header also counts as part of the quoted Fragment,
+            // even though it doesn't start with `>`.
 
             var isMatched = false;
             if (_currentFragment != null)
             {
-                isMatched = (_currentFragment.IsQuote == isQuote ||
-                             (_currentFragment.IsQuote && (line.IsQuoteHeader() || string.IsNullOrWhiteSpace(line))));
+                isMatched = _currentFragment.IsQuote == isQuote
+                    || (_currentFragment.IsQuote && (line.IsQuoteHeader(_lineParsers) || string.IsNullOrWhiteSpace(line)));
             }
 
             if (!isMatched)
@@ -147,37 +196,6 @@ namespace EmailReplyParser.Lib
             {
                 _currentFragment.Lines.Add(line);
             }
-        }
-
-        /// <summary>
-        /// Mark a fragment as finished.
-        /// </summary>
-        private void FinishFragment()
-        {
-            // Finishing a fragment will detect any attributes (hidden, signature, reply), and join each line into a string.
-
-            if (_currentFragment != null)
-            {
-                _currentFragment.Finish();
-
-                if (!_foundVisible)
-                {
-                    if (_currentFragment.IsQuote ||
-                        _currentFragment.IsSignature ||
-                        string.IsNullOrWhiteSpace(_currentFragment.Content))
-                    {
-                        _currentFragment.IsHidden = true;
-                    }
-                    else
-                    {
-                        _foundVisible = true;
-                    }
-                }
-
-                _fragments.Add(_currentFragment);
-            }
-
-            _currentFragment = null;
         }
     }
 }

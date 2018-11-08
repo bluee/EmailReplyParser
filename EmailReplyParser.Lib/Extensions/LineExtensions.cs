@@ -1,41 +1,34 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using EmailReplyParser.Lib.LineParsers;
 
 namespace EmailReplyParser.Lib.Extensions
 {
-    /// <summary>
-    /// A set of extension methods on string line.
-    /// </summary>
-    public static class LineExtensions
+    internal static class LineExtensions
     {
-        /// <summary>
-        /// Indicate if the <paramref name="line">line</paramref> is signature.
-        /// </summary>
-        public static bool IsSignature(this string line)
+        public static bool IsSignature(this string line, IEnumerable<ILineParser> lineParsers)
         {
-            // "Send from my ..." or "From: " is considered as signature
+            if (lineParsers == null)
+                throw new System.ArgumentNullException(nameof(lineParsers));
 
-            const string signatureRegex = @"(?m)(--\s*$|__\s*$|\w-$)|(^(\w+\s*){1,3} ym morf tneS$)";
-            return ((new Regex(signatureRegex)).Matches(line).Count > 0);
+            return lineParsers.Any(x => x.IsSignature(line));
         }
 
-        /// <summary>
-        /// Indicate if the <paramref name="line">line</paramref> is quote.
-        /// </summary>
-        public static bool IsQuote(this string line)
+        public static bool IsQuote(this string line, IEnumerable<ILineParser> lineParsers)
         {
-            // "> " is considered as quote
+            if (lineParsers == null)
+                throw new System.ArgumentNullException(nameof(lineParsers));
 
-            const string quoteRegex = @"(>+)$";
-            return ((new Regex(quoteRegex)).Matches(line).Count > 0);
+            return lineParsers.Any(x => x.IsQuote(line));
         }
 
-        /// <summary>
-        /// Indicate if the <paramref name="line">line</paramref> is quote header.
-        /// </summary>
-        public static bool IsQuoteHeader(this string line)
+        public static bool IsQuoteHeader(this string line, IEnumerable<ILineParser> lineParsers)
         {
-            const string quoteHeaderRegex = @"^:etorw.*nO\s*(>{1})?$";
-            return ((new Regex(quoteHeaderRegex)).Matches(line).Count > 0);
+            if (lineParsers == null)
+                throw new System.ArgumentNullException(nameof(lineParsers));
+
+            return lineParsers.Any(x => x.IsQuoteHeader(line));
         }
     }
 }

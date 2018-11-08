@@ -2,7 +2,7 @@
 
 namespace EmailReplyParser.Lib.Extensions
 {
-    public static class StringExtenstions
+    internal static class StringExtenstions
     {
         public static string Reverse(this string s)
         {
