@@ -8,7 +8,7 @@ using EmailReplyParser.Lib.TextNormalizers;
 namespace EmailReplyParser.Lib
 {
     /// <summary>
-    /// Email.
+    /// Represents an email message whose text can be parsed for replies.
     /// </summary>
     public class Email
     {
@@ -28,9 +28,10 @@ namespace EmailReplyParser.Lib
         private bool _foundVisible;
 
         /// <summary>
-        /// Create an email instance from a text.
+        /// Initializes a new instance of the <see cref="Email"/> class with the
+        /// specified text.
         /// </summary>
-        /// <param name="text">email body</param>
+        /// <param name="text">A string containing the message body text.</param>
         public Email(string text)
             : this(text,
                 new ITextNormalizer[] { new LineEndingsNormalizer(), new ReplyHeaderTextNormalizer(), new ReplyUnderscoresTextNormalizer(), new EmailHeaderNormalizer() },
@@ -40,12 +41,12 @@ namespace EmailReplyParser.Lib
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Email"/> class with the
-        /// specified text.
+        /// specified text using the specified normalizers and parsers.
         /// </summary>
-        /// <param name="text">A string containing the email body text.</param>
+        /// <param name="text">A string containing the message body text.</param>
         /// <param name="normalizers">
-        /// A collection of normalizers for tidying up the <paramref
-        /// name="text">text</paramref>
+        /// A collection of normalizers for preprocessing <paramref
+        /// name="text">text</paramref>.
         /// </param>
         /// <param name="lineParsers">
         /// A collection of line parsers used to determine the type of a line of
@@ -60,7 +61,12 @@ namespace EmailReplyParser.Lib
         }
 
         /// <summary>
-        /// The reply after parsing the email.
+        /// Gets a collection of fragments in the parsed message.
+        /// </summary>
+        public IReadOnlyCollection<Fragment> Fragments => _fragments.AsReadOnly();
+
+        /// <summary>
+        /// Gets the reply text after parsing the email.
         /// </summary>
         public string Reply
         {
@@ -77,7 +83,7 @@ namespace EmailReplyParser.Lib
         private string Text { get; set; }
 
         /// <summary>
-        /// Parse email.
+        /// Processes the message text into a collection of fragments.
         /// </summary>
         public void Parse()
         {
@@ -95,7 +101,7 @@ namespace EmailReplyParser.Lib
         }
 
         /// <summary>
-        /// Mark a fragment as finished.
+        /// Marks the current fragment as complete.
         /// </summary>
         private void FinishFragment()
         {
@@ -150,7 +156,7 @@ namespace EmailReplyParser.Lib
         }
 
         /// <summary>
-        /// Parse a line.
+        /// Adds the line of text to the appropriate fragment.
         /// </summary>
         private void ParseEmailLine(string line)
         {
