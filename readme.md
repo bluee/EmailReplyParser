@@ -1,10 +1,14 @@
 # Email Reply Parser
 
-This is a .NET clone of the very simple but super useful [github email reply parser] (https://github.com/github/email_reply_parser)
-- Medium: https://medium.com/@ericjwhuang/email-reply-parser-there-you-go-net-developer-7ce756366f3d
+[![Build status](https://dev.azure.com/decos/Shared/_apis/build/status/EmailReplyParser)](https://dev.azure.com/decos/Shared/_build/latest?definitionId=194) 
+[![NuGet version](https://badge.fury.io/nu/EmailReplyParser.NET-Decos.svg)](https://badge.fury.io/nu/EmailReplyParser.NET-Decos)
+
+This is a simple library that can parse plain text email message text into fragments and separate the reply text from the rest of the email thread. **Please note that HTML content is not supported. Converted the HTML content into plain text before using this library.**
+
+This is a fork of [EricJWHuang/EmailReplyParser](https://github.com/EricJWHuang/EmailReplyParser) which in turn is a .NET port of the [original Ruby library created by GitHub](https://github.com/github/email_reply_parser).
 
 ### How to use it
-- Install the package from [Nuget](https://www.nuget.org/packages/EmailReplyParser.NET)
+- Install the package from [NuGet](https://www.nuget.org/packages/EmailReplyParser.NET-Decos)
 - Parse the original reply using
 ```c#
 var parser = new EmailReplyParser.Lib.Parser();
