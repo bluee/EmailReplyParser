@@ -30,5 +30,13 @@ namespace EmailReplyParser.Lib.Extensions
 
             return lineParsers.Any(x => x.IsQuoteHeader(line));
         }
+
+        public static bool IsImplicitQuoteHeader(this string line, IEnumerable<ILineParser> lineParsers)
+        {
+            if (lineParsers == null)
+                throw new System.ArgumentNullException(nameof(lineParsers));
+
+            return lineParsers.Any(x => x.IsImplicitQuoteHeader(line));
+        }
     }
 }

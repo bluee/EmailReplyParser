@@ -33,7 +33,7 @@ namespace EmailReplyParser.Lib
         /// <param name="text">email body</param>
         public Email(string text)
             : this(text,
-                new ITextNormalizer[] { new LineEndingsNormalizer(), new ReplyHeaderTextNormalizer(), new ReplyUnderscoresTextNormalizer() },
+                new ITextNormalizer[] { new LineEndingsNormalizer(), new ReplyHeaderTextNormalizer(), new ReplyUnderscoresTextNormalizer(), new EmailHeaderNormalizer() },
                 new ILineParser[] { new DefaultLineParser() })
         {
         }
@@ -184,7 +184,7 @@ namespace EmailReplyParser.Lib
             if (_currentFragment != null)
             {
                 isMatched = _currentFragment.IsQuote == isQuote
-                    || (_currentFragment.IsQuote && (line.IsQuoteHeader(_lineParsers) || string.IsNullOrWhiteSpace(line)));
+                    || (_currentFragment.IsQuote && (line.IsQuoteHeader(_lineParsers) || line.IsImplicitQuoteHeader(_lineParsers) || string.IsNullOrWhiteSpace(line)));
             }
 
             if (!isMatched)
@@ -195,6 +195,13 @@ namespace EmailReplyParser.Lib
             else
             {
                 _currentFragment.Lines.Add(line);
+
+                // If any fragment is preceded by typical mail header (`From`,
+                // `Sent`, `To`, `Subject`), the fragment is a quote even if
+                // there is no explicit `>` on every line (e.g. Outlook 2016 rich
+                // text converted to plain text).
+                if (line.IsImplicitQuoteHeader(_lineParsers))
+                    _currentFragment.IsQuote = true;
             }
         }
     }

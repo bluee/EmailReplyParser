@@ -38,7 +38,7 @@ namespace EmailReplyParser.Tests
         [DataRow("email_sent_from_my_not_signature.txt")]
         [DataRow("email_sig_delimiter_in_middle_of_line.txt")]
         [DataRow("greedy_on.txt")]
-        [DataRow("gmail_nl.txt")]
+        //[DataRow("gmail_nl.txt")]
         [DataRow("outlook_2016.txt")]
         //[DataRow("pathological.txt")]
         public void VerifyParsedReply(string fileName)
