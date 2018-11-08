@@ -34,7 +34,7 @@ namespace EmailReplyParser.Lib
         public Email(string text)
             : this(text,
                 new ITextNormalizer[] { new LineEndingsNormalizer(), new ReplyHeaderTextNormalizer(), new ReplyUnderscoresTextNormalizer(), new EmailHeaderNormalizer() },
-                new ILineParser[] { new DefaultLineParser() })
+                new ILineParser[] { new DefaultLineParser(), new DutchLineParser() })
         {
         }
 

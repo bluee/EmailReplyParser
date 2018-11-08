@@ -3,15 +3,14 @@
 namespace EmailReplyParser.Lib.LineParsers
 {
     /// <summary>
-    /// Represents a line parser that uses English email conventions for
-    /// signatures and quoted text.
+    /// Represents a line parser that uses Dutch email conventions for signatures
+    /// and quoted text.
     /// </summary>
-    public class DefaultLineParser : ILineParser
+    public class DutchLineParser : DefaultLineParser
     {
-        private static readonly Regex _signatureRegex = new Regex(@"(?m)(--\s*$|__\s*$|\w-$)|(^(\w+\s*){1,3} ym morf tneS$)");
-        private static readonly Regex _quoteRegex = new Regex("(>+)$");
-        private static readonly Regex _quoteHeaderRegex = new Regex(@"^:etorw.*nO\s*(>{1})?$");
-        private static readonly Regex _implicitQuoteRegex = new Regex(@"(\s:tcejbuS(.*\scC)?.*\s+:oT.*\s+:tneS.*\s+:morF$)");
+        private static readonly Regex _signatureRegex = new Regex(@"(^\.?([\w-]+\s*){1,3} njim fanav druutsreV$)|(^\.?([\w-]+\s*){1,3} njim fanav nednozreV$)");
+        private static readonly Regex _quoteHeaderRegex = new Regex(@"^:(.*)\s+feerhcs\s+(.*)\s+pO\s*>?$");
+        private static readonly Regex _implicitQuoteRegex = new Regex(@"(\s:prewrednO(.*\sCC)?.*\s+:naA.*\s+:nednozreV.*\s+:naV$)");
 
         /// <summary>
         /// Determines whether the specified line is a common signature.
@@ -24,26 +23,11 @@ namespace EmailReplyParser.Lib.LineParsers
         /// message; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
-        /// Matches any line that starts with --, __, -asdf or "Sent from my".
+        /// Matches any line that starts with --, __, -asdf or "Verzonden vanaf mijn".
         /// </remarks>
-        public virtual bool IsSignature(string reversedLine)
+        public override bool IsSignature(string reversedLine)
         {
             return _signatureRegex.IsMatch(reversedLine);
-        }
-
-        /// <summary>
-        /// Determines whether the specified line is a quoted text.
-        /// </summary>
-        /// <param name="reversedLine">
-        /// A string that contains a line of reversed text to check.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if <paramref name="reversedLine"/> is quoted text;
-        /// otherwise, <c>false</c>.
-        /// </returns>
-        public virtual bool IsQuote(string reversedLine)
-        {
-            return _quoteRegex.IsMatch(reversedLine);
         }
 
         /// <summary>
@@ -57,9 +41,9 @@ namespace EmailReplyParser.Lib.LineParsers
         /// followed by quoted text; otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
-        /// Matches any line in the Gmail-style "On [date], [person] wrote:".
+        /// Matches any line in the Gmail-style "Op [date] schreef [person]:".
         /// </remarks>
-        public virtual bool IsQuoteHeader(string reversedLine)
+        public override bool IsQuoteHeader(string reversedLine)
         {
             return _quoteHeaderRegex.IsMatch(reversedLine);
         }
@@ -75,7 +59,7 @@ namespace EmailReplyParser.Lib.LineParsers
         /// <c>true</c> if <paramref name="reversedLine"/> indicates it is
         /// followed by an implicitly quoted message; otherwise, <c>false</c>.
         /// </returns>
-        public virtual bool IsImplicitQuoteHeader(string reversedLine)
+        public override bool IsImplicitQuoteHeader(string reversedLine)
         {
             return _implicitQuoteRegex.IsMatch(reversedLine);
         }

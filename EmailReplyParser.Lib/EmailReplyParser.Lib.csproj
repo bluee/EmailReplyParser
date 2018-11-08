@@ -42,6 +42,7 @@
     <Compile Include="Email.cs" />
     <Compile Include="Extensions\LineExtensions.cs" />
     <Compile Include="LineParsers\DefaultLineParser.cs" />
+    <Compile Include="LineParsers\DutchLineParser.cs" />
     <Compile Include="LineParsers\ILineParser.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Fragment.cs" />

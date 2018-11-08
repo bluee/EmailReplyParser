@@ -109,6 +109,12 @@
     <EmbeddedResource Include="TestEmails\gmail_nl.txt" />
     <EmbeddedResource Include="TestEmails\outlook_2016.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestEmails\outlook_2016_nl.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestEmailResults\outlook_2016_nl.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

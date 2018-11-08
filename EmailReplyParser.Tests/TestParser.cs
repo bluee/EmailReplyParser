@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailReplyParser.Tests
@@ -12,9 +13,14 @@ namespace EmailReplyParser.Tests
             var assembly = Assembly.GetExecutingAssembly();
 
             using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
             {
-                return reader.ReadToEnd();
+                if (stream == null)
+                    throw new FileNotFoundException($"Unable to find the manifest resource stream. Did you mark it as an embedded resource? Name: {resourceName}", resourceName);
+
+                using (var reader = new StreamReader(stream))
+                {
+                    return reader.ReadToEnd();
+                }
             }
         }
 
@@ -38,8 +44,9 @@ namespace EmailReplyParser.Tests
         [DataRow("email_sent_from_my_not_signature.txt")]
         [DataRow("email_sig_delimiter_in_middle_of_line.txt")]
         [DataRow("greedy_on.txt")]
-        //[DataRow("gmail_nl.txt")]
+        [DataRow("gmail_nl.txt")]
         [DataRow("outlook_2016.txt")]
+        [DataRow("outlook_2016_nl.txt")]
         //[DataRow("pathological.txt")]
         public void VerifyParsedReply(string fileName)
         {
