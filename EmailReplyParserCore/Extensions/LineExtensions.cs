@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using EmailReplyParser.Lib.LineParsers;
+using EmailReplyParserCore.LineParsers;
 
-namespace EmailReplyParser.Lib.Extensions
+namespace EmailReplyParserCore.Extensions
 {
     internal static class LineExtensions
     {

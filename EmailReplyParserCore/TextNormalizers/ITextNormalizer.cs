@@ -1,4 +1,4 @@
-﻿namespace EmailReplyParser.Lib.TextNormalizers
+﻿namespace EmailReplyParserCore.TextNormalizers
 {
     /// <summary>
     /// Defines a method for preprocessing message text before it is parsed into

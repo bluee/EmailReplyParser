@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace EmailReplyParser.Lib.TextNormalizers
+namespace EmailReplyParserCore.TextNormalizers
 {
     /// <summary>
     /// Processes message text for email headers of implicitly quoted messages.

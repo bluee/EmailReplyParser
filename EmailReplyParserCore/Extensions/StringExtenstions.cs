@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EmailReplyParser.Lib.Extensions
+namespace EmailReplyParserCore.Extensions
 {
     internal static class StringExtenstions
     {

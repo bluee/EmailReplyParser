@@ -1,4 +1,4 @@
-﻿namespace EmailReplyParser.Lib.TextNormalizers
+﻿namespace EmailReplyParserCore.TextNormalizers
 {
     /// <summary>
     /// Line endings normalizer.

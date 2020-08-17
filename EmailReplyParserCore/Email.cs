@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using EmailReplyParser.Lib.Extensions;
-using EmailReplyParser.Lib.LineParsers;
-using EmailReplyParser.Lib.TextNormalizers;
+using EmailReplyParserCore.Extensions;
+using EmailReplyParserCore.LineParsers;
+using EmailReplyParserCore.TextNormalizers;
 
-namespace EmailReplyParser.Lib
+namespace EmailReplyParserCore
 {
     /// <summary>
     /// Represents an email message whose text can be parsed for replies.

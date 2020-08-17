@@ -1,0 +1,118 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TestEmailResults\correct_sig.txt" />
+    <None Remove="TestEmailResults\email_1_1.txt" />
+    <None Remove="TestEmailResults\email_1_2.txt" />
+    <None Remove="TestEmailResults\email_1_3.txt" />
+    <None Remove="TestEmailResults\email_1_4.txt" />
+    <None Remove="TestEmailResults\email_1_5.txt" />
+    <None Remove="TestEmailResults\email_1_6.txt" />
+    <None Remove="TestEmailResults\email_1_7.txt" />
+    <None Remove="TestEmailResults\email_1_8.txt" />
+    <None Remove="TestEmailResults\email_2_1.txt" />
+    <None Remove="TestEmailResults\email_2_2.txt" />
+    <None Remove="TestEmailResults\email_BlackBerry.txt" />
+    <None Remove="TestEmailResults\email_bullets.txt" />
+    <None Remove="TestEmailResults\email_iPhone.txt" />
+    <None Remove="TestEmailResults\email_multi_word_sent_from_my_mobile_device.txt" />
+    <None Remove="TestEmailResults\email_one_is_not_on.txt" />
+    <None Remove="TestEmailResults\email_sent_from_my_not_signature.txt" />
+    <None Remove="TestEmailResults\email_sig_delimiter_in_middle_of_line.txt" />
+    <None Remove="TestEmailResults\gmail_nl.txt" />
+    <None Remove="TestEmailResults\greedy_on.txt" />
+    <None Remove="TestEmailResults\outlook_2016.txt" />
+    <None Remove="TestEmailResults\outlook_2016_nl.txt" />
+    <None Remove="TestEmailResults\pathological.txt" />
+    <None Remove="TestEmails\correct_sig.txt" />
+    <None Remove="TestEmails\email_1_1.txt" />
+    <None Remove="TestEmails\email_1_2.txt" />
+    <None Remove="TestEmails\email_1_3.txt" />
+    <None Remove="TestEmails\email_1_4.txt" />
+    <None Remove="TestEmails\email_1_5.txt" />
+    <None Remove="TestEmails\email_1_6.txt" />
+    <None Remove="TestEmails\email_1_7.txt" />
+    <None Remove="TestEmails\email_1_8.txt" />
+    <None Remove="TestEmails\email_2_1.txt" />
+    <None Remove="TestEmails\email_2_2.txt" />
+    <None Remove="TestEmails\email_BlackBerry.txt" />
+    <None Remove="TestEmails\email_bullets.txt" />
+    <None Remove="TestEmails\email_iPhone.txt" />
+    <None Remove="TestEmails\email_multi_word_sent_from_my_mobile_device.txt" />
+    <None Remove="TestEmails\email_one_is_not_on.txt" />
+    <None Remove="TestEmails\email_sent_from_my_not_signature.txt" />
+    <None Remove="TestEmails\email_sig_delimiter_in_middle_of_line.txt" />
+    <None Remove="TestEmails\gmail_nl.txt" />
+    <None Remove="TestEmails\greedy_on.txt" />
+    <None Remove="TestEmails\outlook_2016.txt" />
+    <None Remove="TestEmails\outlook_2016_nl.txt" />
+    <None Remove="TestEmails\pathological.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TestEmailResults\correct_sig.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_1.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_2.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_3.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_4.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_5.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_6.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_7.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_1_8.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_2_1.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_2_2.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_BlackBerry.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_bullets.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_iPhone.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_multi_word_sent_from_my_mobile_device.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_one_is_not_on.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_sent_from_my_not_signature.txt" />
+    <EmbeddedResource Include="TestEmailResults\email_sig_delimiter_in_middle_of_line.txt" />
+    <EmbeddedResource Include="TestEmailResults\gmail_nl.txt" />
+    <EmbeddedResource Include="TestEmailResults\greedy_on.txt" />
+    <EmbeddedResource Include="TestEmailResults\outlook_2016.txt" />
+    <EmbeddedResource Include="TestEmailResults\outlook_2016_nl.txt" />
+    <EmbeddedResource Include="TestEmailResults\pathological.txt" />
+    <EmbeddedResource Include="TestEmails\correct_sig.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_1.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_2.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_3.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_4.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_5.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_6.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_7.txt" />
+    <EmbeddedResource Include="TestEmails\email_1_8.txt" />
+    <EmbeddedResource Include="TestEmails\email_2_1.txt" />
+    <EmbeddedResource Include="TestEmails\email_2_2.txt" />
+    <EmbeddedResource Include="TestEmails\email_BlackBerry.txt" />
+    <EmbeddedResource Include="TestEmails\email_bullets.txt" />
+    <EmbeddedResource Include="TestEmails\email_iPhone.txt" />
+    <EmbeddedResource Include="TestEmails\email_multi_word_sent_from_my_mobile_device.txt" />
+    <EmbeddedResource Include="TestEmails\email_one_is_not_on.txt" />
+    <EmbeddedResource Include="TestEmails\email_sent_from_my_not_signature.txt" />
+    <EmbeddedResource Include="TestEmails\email_sig_delimiter_in_middle_of_line.txt" />
+    <EmbeddedResource Include="TestEmails\gmail_nl.txt" />
+    <EmbeddedResource Include="TestEmails\greedy_on.txt" />
+    <EmbeddedResource Include="TestEmails\outlook_2016.txt" />
+    <EmbeddedResource Include="TestEmails\outlook_2016_nl.txt" />
+    <EmbeddedResource Include="TestEmails\pathological.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmailReplyParserCore\EmailReplyParserCore.csproj" />
+  </ItemGroup>
+
+</Project>

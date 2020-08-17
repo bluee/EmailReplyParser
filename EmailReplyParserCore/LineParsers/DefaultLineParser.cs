@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace EmailReplyParser.Lib.LineParsers
+namespace EmailReplyParserCore.LineParsers
 {
     /// <summary>
     /// Represents a line parser that uses English email conventions for

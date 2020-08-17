@@ -1,4 +1,4 @@
-﻿namespace EmailReplyParser.Lib.LineParsers
+﻿namespace EmailReplyParserCore.LineParsers
 {
     /// <summary>
     /// Defines methods that determine the kind of line in an email message.

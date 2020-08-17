@@ -1,4 +1,4 @@
-﻿namespace EmailReplyParser.Lib
+﻿namespace EmailReplyParserCore
 {
     /// <summary>
     /// A text parser to extract reply from email body.

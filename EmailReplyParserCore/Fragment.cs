@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using EmailReplyParser.Lib.Extensions;
+using EmailReplyParserCore.Extensions;
 
-namespace EmailReplyParser.Lib
+namespace EmailReplyParserCore
 {
     /// <summary>
     /// Represents a group of lines in the email sharing common attributes.
