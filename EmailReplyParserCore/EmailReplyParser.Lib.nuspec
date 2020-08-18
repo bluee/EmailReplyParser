@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>EmailReplyParser.NET-Decos</id>
-    <version>1.1.0</version>
+    <id>EmailReplyParserCore.NET</id>
+    <version>1.2.0</version>
     <title>Email Reply Parser</title>
-    <authors>Laura Verdoes</authors>
+    <authors>Multiple</authors>
     <owners>l.verdoes</owners>
     <projectUrl>https://github.com/DecosInformationSolutions/EmailReplyParser</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A fork of EricJWHuang's EmailReplyParser for .NET with support for Dutch email conventions.</description>
-    <releaseNotes>A fork of the original EmailReplyParser with support for Dutch email conventions and Outlook 2016 style email replies.</releaseNotes>
-    <copyright>Copyright 2018</copyright>
-    <tags>Email Reply Parser Parse</tags>
+    <description>A fork of the original EricJWHuang/EmailReplyParser and changes made in DecosInformationSolutions/EmailReplyParser</description>
+    <releaseNotes>A fork of the original EricJWHuang/EmailReplyParser and changes made in DecosInformationSolutions/EmailReplyParser</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>Email Reply Parser Parser</tags>
   </metadata>
 </package>

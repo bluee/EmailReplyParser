@@ -5,29 +5,15 @@ using Xunit;
 
 namespace EmailReplyParserCore.Tests
 {
-    
     public class TestParser
     {
         private string LoadFile(string resourceName)
         {
             var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
             var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
-            var dirPath = Path.GetDirectoryName(codeBasePath);
-            return Path.Combine(dirPath, resourceName);
-
-            return File.ReadAllText(resourceName);
-            //var assembly = Assembly.GetExecutingAssembly();
-
-            //using (var stream = assembly.GetManifestResourceStream(resourceName))
-            //{
-            //    if (stream == null)
-            //        throw new FileNotFoundException($"Unable to find the manifest resource stream. Did you mark it as an embedded resource? Name: {resourceName}", resourceName);
-
-            //    using (var reader = new StreamReader(stream))
-            //    {
-            //        return reader.ReadToEnd();
-            //    }
-            //}
+            var dirPath = Path.GetFullPath(Path.GetDirectoryName(codeBasePath)+@"\..\..\..");
+            var filename = Path.Combine(dirPath, resourceName);
+            return File.ReadAllText(filename);
         }
 
         [Theory]
@@ -56,8 +42,8 @@ namespace EmailReplyParserCore.Tests
         //[InlineData("pathological.txt")]
         public void VerifyParsedReply(string fileName)
         {
-            var email = LoadFile($"TestEmails/EmailReplyParser.Tests.TestEmails.{fileName}");
-            var expectedReply = LoadFile($"TestEmailResults/EmailReplyParser.Tests.TestEmailResults.{fileName}").Replace("\r\n", "\n");
+            var email = LoadFile($"TestEmails/{fileName}");
+            var expectedReply = LoadFile($"TestEmailResults/{fileName}").Replace("\r\n", "\n");
 
             var parser = new EmailReplyParserCore.Parser();
             var reply = parser.ParseReply(email);
